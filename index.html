@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Umesh Verma - B.Tech CSE AI Student | Portfolio showcasing AI/ML projects and web development skills">
+    <meta name="keywords" content="Umesh Verma, AI, Machine Learning, Web Developer, Portfolio, B.Tech CSE">
+    <meta name="author" content="Umesh Verma">
+    <title>Umesh Verma | AI & Web Developer Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    </noscript>
+    <!-- Spline Viewer & GSAP -->
+    <script type="module" src="./spline-viewer.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- Model Viewer for 3D Bike (self-hosted) -->
+    <script type="module" src="./model-viewer.min.js"></script>
+    <link rel="stylesheet" href="styles.css?v=19.0">
+</head>
+
+<body>
+    <!-- Spline 3D Background (robot follows cursor) -->
+    <div id="canvas-container">
+        <spline-viewer url="./scene.splinecode"
+            events-target="global"></spline-viewer>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-text">UV</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <!-- 3D Bike Model Overlay -->
+        <model-viewer id="hero-bike"
+            src="bike.glb" auto-rotate
+            rotation-per-second="15deg" camera-controls disable-zoom interaction-prompt="none"></model-viewer>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <p class="hero-greeting">Hello, I'm</p>
+                <h1 class="hero-name">Umesh Verma</h1>
+                <div class="hero-title-wrapper">
+                    <span class="hero-title-static">I'm a </span>
+                    <span class="hero-title" id="typed-text"></span>
+                    <span class="cursor">|</span>
+                </div>
+                <p class="hero-description">
+                    B.Tech CSE AI Student passionate about building intelligent systems
+                    and crafting beautiful web experiences.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> View Projects
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i> Contact Me
+                    </a>
+                </div>
+                <div class="hero-socials">
+                    <a href="https://github.com/not-umesh" target="_blank" class="social-link" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/uv-mv" target="_blank" class="social-link"
+                        aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="mailto:umeshverma.mv@gmail.com" class="social-link" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="image-wrapper">
+                    <div class="image-glow"></div>
+                    <img src="UvPortfolioimg.jpeg" alt="Umesh Verma" class="profile-img" decoding="async">
+                    <div class="image-ring"></div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Get to Know Me</span>
+                <h2 class="section-title">About Me</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="about-img-wrapper">
+                        <img src="UvPortfolioimg.jpeg" alt="Umesh Verma" loading="lazy" decoding="async">
+                        <span class="exp-number">Tech</span>
+                        <span class="exp-text">Innovator<br>& Builder</span>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <ul class="about-highlights">
+                        <li>Architect of intelligent systems, including the "Kishan-Mitra" agricultural app and the
+                            "PashuNirikshan" livestock monitoring system (Smart India Hackathon 2026).</li>
+                        <li>Active hackathon competitor and builder (ISRO Bharatiya Antariksh Hackathon, AppMaking Merit
+                            Award, MY Bharat Budget Quest 2026 Finalist).</li>
+                        <li>Focused on building high-utility mobile and web applications using React Native, Node.js,
+                            C++, and Python.</li>
+                    </ul>
+                    <p class="about-description">
+                        When I'm not training models or debugging code, you'll find me building mobile applications
+                        that are as functional as they are beautiful. I believe in writing clean code, staying
+                        curious, and never stopping learning. From disaster management systems to AI-powered chatbots,
+                        I love turning ideas into reality through code.
+                    </p>
+                    <p class="about-description">
+                        I'm always excited to collaborate on innovative projects and connect with fellow tech
+                        enthusiasts. Let's build something amazing together! 🚀
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">4+</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">10+</span>
+                            <span class="stat-label">Technologies</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">What I Work With</span>
+                <h2 class="section-title">Skills & Technologies</h2>
+            </div>
+
+            <div class="skills-categories">
+                <!-- AI/ML Skills -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-brain"></i> AI & Machine Learning
+                    </h3>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <i class="fab fa-python"></i>
+                            <span>Python</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fas fa-project-diagram"></i>
+                            <span>TensorFlow</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fas fa-robot"></i>
+                            <span>Machine Learning</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fas fa-network-wired"></i>
+                            <span>Deep Learning</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Data Analysis</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Frontend Skills -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-laptop-code"></i> Frontend Development
+                    </h3>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <i class="fab fa-html5"></i>
+                            <span>HTML5</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fab fa-css3-alt"></i>
+                            <span>CSS3</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fab fa-js-square"></i>
+                            <span>JavaScript</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fab fa-react"></i>
+                            <span>React</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fas fa-code"></i>
+                            <span>TypeScript</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend & Tools -->
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <i class="fas fa-server"></i> Backend & Tools
+                    </h3>
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <i class="fab fa-node-js"></i>
+                            <span>Node.js</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fas fa-database"></i>
+                            <span>MongoDB</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fab fa-git-alt"></i>
+                            <span>Git</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub</span>
+                        </div>
+                        <div class="skill-card">
+                            <i class="fas fa-terminal"></i>
+                            <span>CLI Tools</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">My Work</span>
+                <h2 class="section-title">Featured Projects</h2>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Project 1: Disaster Management System -->
+                <a href="https://github.com/not-umesh/Disaster_Management_System" target="_blank" class="project-card"
+                    data-project-type="App Development">
+                    <div class="project-visual">
+                        <div class="project-tags-overlay">
+                            <span class="overlay-tag"><i class="fas fa-mobile"></i> Flutter</span>
+                        </div>
+                        <div class="project-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="project-hover-popup">
+                            <span>App Development</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Disaster Management System</h3>
+                        <p class="project-description">
+                            A comprehensive Flutter-based mobile application for disaster management with
+                            integrated AI chatbot for emergency assistance, real-time alerts, and crisis coordination.
+                        </p>
+                        <div class="project-actions">
+                            <span class="action-btn primary-action">View Project</span>
+                            <span class="action-btn secondary-action">GitHub <i class="fab fa-github"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 2: Disaster Management Chatbot (Backend) -->
+                <a href="https://github.com/not-umesh/Disaster_Management_chatbot" target="_blank" class="project-card"
+                    data-project-type="Backend Engine">
+                    <div class="project-visual">
+                        <div class="project-tags-overlay">
+                            <span class="overlay-tag"><i class="fab fa-java"></i> Java</span>
+                            <span class="overlay-tag"><i class="fas fa-leaf"></i> Spring Boot</span>
+                        </div>
+                        <div class="project-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="project-hover-popup">
+                            <span>Backend Engine</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">AI Disaster Chatbot Backend</h3>
+                        <p class="project-description">
+                            Java-based backend service powering the AI chatbot integrated in the Disaster Management
+                            System. Provides intelligent responses for emergency situations and crisis guidance.
+                        </p>
+                        <div class="project-actions">
+                            <span class="action-btn primary-action">View Project</span>
+                            <span class="action-btn secondary-action">GitHub <i class="fab fa-github"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 3: AI Handwritten Math Solver -->
+                <a href="https://github.com/not-umesh/AI_HandWritten_Math_Solver_fullstack" target="_blank"
+                    class="project-card" data-project-type="Full Stack AI">
+                    <div class="project-visual">
+                        <div class="project-tags-overlay">
+                            <span class="overlay-tag"><i class="fab fa-js"></i> JS</span>
+                            <span class="overlay-tag"><i class="fas fa-project-diagram"></i> TensorFlow</span>
+                        </div>
+                        <div class="project-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="project-hover-popup">
+                            <span>Full Stack AI</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">AI Handwritten Math Solver</h3>
+                        <p class="project-description">
+                            Full-stack AI application that recognizes handwritten mathematical expressions
+                            and solves them automatically using computer vision and machine learning.
+                        </p>
+                        <div class="project-actions">
+                            <span class="action-btn primary-action">View Project</span>
+                            <span class="action-btn secondary-action">GitHub <i class="fab fa-github"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 4: MindBuddy Mental Health Chatbot -->
+                <a href="https://github.com/not-umesh/MindBuddy-ai_mentalhealth_chatbot" target="_blank"
+                    class="project-card" data-project-type="AI Chatbot App">
+                    <div class="project-visual">
+                        <div class="project-tags-overlay">
+                            <span class="overlay-tag"><i class="fas fa-mobile"></i> Flutter</span>
+                        </div>
+                        <div class="project-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="project-hover-popup">
+                            <span>AI Chatbot App</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">MindBuddy Chatbot</h3>
+                        <p class="project-description">
+                            An empathetic AI-powered mental health companion built with Flutter, providing
+                            supportive conversations and wellness resources for emotional well-being.
+                        </p>
+                        <div class="project-actions">
+                            <span class="action-btn primary-action">View Project</span>
+                            <span class="action-btn secondary-action">GitHub <i class="fab fa-github"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 5: DeepFake Detector -->
+                <a href="https://github.com/not-umesh/DeepFakeDetector" target="_blank" class="project-card"
+                    data-project-type="Security & ML">
+                    <div class="project-visual">
+                        <div class="project-tags-overlay">
+                            <span class="overlay-tag"><i class="fab fa-python"></i> Python</span>
+                            <span class="overlay-tag"><i class="fas fa-project-diagram"></i> TensorFlow</span>
+                        </div>
+                        <div class="project-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="project-hover-popup">
+                            <span>Security & ML</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">DeepFake Detector</h3>
+                        <p class="project-description">
+                            AI-powered web application that detects deepfake media with advanced security features
+                            including rate limiting, input validation, and secure API integration for accurate analysis.
+                        </p>
+                        <div class="project-actions">
+                            <span class="action-btn primary-action">View Project</span>
+                            <span class="action-btn secondary-action">GitHub <i class="fab fa-github"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 6: Real-Time Network IDS -->
+                <a href="https://github.com/not-umesh" target="_blank" class="project-card"
+                    data-project-type="Cybersecurity & AI">
+                    <div class="project-visual">
+                        <div class="project-tags-overlay">
+                            <span class="overlay-tag"><i class="fab fa-python"></i> Python</span>
+                            <span class="overlay-tag"><i class="fas fa-network-wired"></i> CoreML</span>
+                        </div>
+                        <div class="project-icon">
+                            <i class="fas fa-shield-halved"></i>
+                        </div>
+                        <div class="project-hover-popup">
+                            <span>Cybersecurity & AI</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Real-Time Network IDS</h3>
+                        <p class="project-description">
+                            Suricata-backed real-time Machine Learning Network Intrusion Detection System optimized for
+                            Apple Silicon with sub-1ms CoreML inference.
+                        </p>
+                        <div class="project-actions">
+                            <span class="action-btn primary-action">View Project</span>
+                            <span class="action-btn secondary-action">GitHub <i class="fab fa-github"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 7: Kisan-Mitra Add -->
+                <a href="https://github.com/not-umesh/kishan-mitra" target="_blank" class="project-card"
+                    data-project-type="Agritech & AI">
+                    <div class="project-visual">
+                        <div class="project-tags-overlay">
+                            <span class="overlay-tag"><i class="fab fa-react"></i> React Native</span>
+                            <span class="overlay-tag"><i class="fab fa-node-js"></i> Node.js</span>
+                        </div>
+                        <div class="project-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <div class="project-hover-popup">
+                            <span>Agritech & AI</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Kisan-Mitra App</h3>
+                        <p class="project-description">
+                            A free-tier intelligent mobile app providing Indian farmers with live weather updates,
+                            mandi prices, and AI-powered agricultural advice.
+                        </p>
+                        <div class="project-actions">
+                            <span class="action-btn primary-action">View Project</span>
+                            <span class="action-btn secondary-action">GitHub <i class="fab fa-github"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 8: Stock Market Dashboard -->
+                <a href="https://github.com/not-umesh" target="_blank" class="project-card"
+                    data-project-type="Full Stack Web App">
+                    <div class="project-visual">
+                        <div class="project-tags-overlay">
+                            <span class="overlay-tag"><i class="fab fa-react"></i> Next.js</span>
+                            <span class="overlay-tag"><i class="fas fa-wind"></i> Tailwind</span>
+                        </div>
+                        <div class="project-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="project-hover-popup">
+                            <span>Full Stack Web App</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Real-Time Stock Analytics</h3>
+                        <p class="project-description">
+                            A real-time stock market web application built with Next.js and Tailwind CSS featuring
+                            interactive financial charts and AI-driven market insights.
+                        </p>
+                        <div class="project-actions">
+                            <span class="action-btn primary-action">View Project</span>
+                            <span class="action-btn secondary-action">GitHub <i class="fab fa-github"></i></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Project 9: Voice-to-Notes App -->
+                <a href="https://github.com/not-umesh" target="_blank" class="project-card"
+                    data-project-type="Mobile AI App">
+                    <div class="project-visual">
+                        <div class="project-tags-overlay">
+                            <span class="overlay-tag"><i class="fab fa-react"></i> React Native</span>
+                            <span class="overlay-tag"><i class="fas fa-brain"></i> Whisper AI</span>
+                        </div>
+                        <div class="project-icon">
+                            <i class="fas fa-microphone-lines"></i>
+                        </div>
+                        <div class="project-hover-popup">
+                            <span>Mobile AI App</span>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">Voice-to-Notes Engine</h3>
+                        <p class="project-description">
+                            An intelligent React Native mobile app that uses Whisper AI to transcribe and summarize
+                            classroom lectures into organized, actionable study notes.
+                        </p>
+                        <div class="project-actions">
+                            <span class="action-btn primary-action">View Project</span>
+                            <span class="action-btn secondary-action">GitHub <i class="fab fa-github"></i></span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="projects-cta">
+                <a href="https://github.com/not-umesh" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-github"></i> View All on GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Get in Touch</span>
+                <h2 class="section-title">Let's Connect</h2>
+            </div>
+
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p class="contact-description">
+                        I'm always open to discussing new projects, creative ideas, or opportunities
+                        to be part of your visions. Feel free to reach out!
+                    </p>
+
+                    <div class="contact-cards">
+                        <a href="mailto:umeshverma.mv@gmail.com" class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-details">
+                                <span class="contact-label">Email</span>
+                                <span class="contact-value">umeshverma.mv@gmail.com</span>
+                            </div>
+                        </a>
+
+                        <a href="https://www.linkedin.com/in/uv-mv" target="_blank" class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fab fa-linkedin"></i>
+                            </div>
+                            <div class="contact-details">
+                                <span class="contact-label">LinkedIn</span>
+                                <span class="contact-value">linkedin.com/in/uv-mv</span>
+                            </div>
+                        </a>
+
+                        <a href="https://github.com/not-umesh" target="_blank" class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <div class="contact-details">
+                                <span class="contact-label">GitHub</span>
+                                <span class="contact-value">github.com/not-umesh</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-text">UV</span>
+                    <p>Building the future, one line of code at a time.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#hero">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-socials">
+                    <a href="https://github.com/not-umesh" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/uv-mv" target="_blank" aria-label="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="mailto:umeshverma.mv@gmail.com" aria-label="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Umesh Verma. All rights reserved.</p>
+                <p>Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> and lots of ☕</p>
+            </div>
+        </div>
+    </footer>
+
+    <script defer src="script.js?v=18.0"></script>
+</body>
+
+</html>
