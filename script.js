@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavbar();
     initSmoothScrollAnimations();
     initSmoothScroll();
+    initMusicPlayer();
     hideSplineWatermark();
 
     // Gold holographic treatment for the 3D Bike (matches robot theme)
@@ -242,5 +243,135 @@ function initSmoothScroll() {
                 window.scrollTo({ top, behavior: 'smooth' });
             }
         });
+    });
+}
+
+/* ============================================
+   FOOTER MUSIC PLAYER
+   ============================================ */
+function initMusicPlayer() {
+    const wrap = document.getElementById('footer-music');
+    const btn = document.getElementById('music-toggle');
+    const icon = document.getElementById('music-icon');
+    const audio = document.getElementById('bg-music');
+    const vol = document.getElementById('music-volume');
+    if (!wrap || !btn || !audio) return;
+
+    audio.volume = (vol ? parseInt(vol.value, 10) : 55) / 100;
+
+    btn.addEventListener('click', () => {
+        if (audio.paused) {
+            audio.play().then(() => {
+                wrap.classList.add('playing');
+                icon.className = 'fas fa-pause';
+                btn.setAttribute('aria-label', 'Pause ambient music');
+            }).catch(() => { /* autoplay policy or missing file */ });
+        } else {
+            audio.pause();
+            wrap.classList.remove('playing');
+            icon.className = 'fas fa-play';
+            btn.setAttribute('aria-label', 'Play ambient music');
+        }
+    });
+
+    if (vol) {
+        vol.addEventListener('input', () => {
+            audio.volume = parseInt(vol.value, 10) / 100;
+        });
+    }
+
+    // Duration / seek bar
+    const bar = document.getElementById('music-progress');
+    const fill = document.getElementById('music-progress-fill');
+    const knob = document.getElementById('music-progress-knob');
+    const timeEl = document.getElementById('music-time');
+    const fmt = (s) => {
+        if (!isFinite(s)) return '0:00';
+        const m = Math.floor(s / 60);
+        const sec = Math.floor(s % 60);
+        return m + ':' + String(sec).padStart(2, '0');
+    };
+    // Safari can report duration as Infinity while streaming and may throttle
+    // timeupdate, so fall back to seekable ranges and drive the bar with rAF
+    const getDur = () => {
+        if (isFinite(audio.duration) && audio.duration > 0) return audio.duration;
+        if (audio.seekable && audio.seekable.length > 0) {
+            return audio.seekable.end(audio.seekable.length - 1);
+        }
+        return NaN;
+    };
+    const syncBar = () => {
+        const d = getDur();
+        const pct = isFinite(d) && d > 0 ? (audio.currentTime / d) * 100 : 0;
+        if (fill) fill.style.width = pct + '%';
+        if (knob) {
+            knob.style.left = pct + '%';
+            bar.setAttribute('aria-valuenow', Math.round(pct));
+        }
+        if (timeEl) timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(d);
+    };
+    audio.addEventListener('timeupdate', syncBar);
+    audio.addEventListener('loadedmetadata', syncBar);
+    audio.addEventListener('seeked', syncBar);
+    syncBar();
+    const tick = () => {
+        syncBar();
+        if (!audio.paused) requestAnimationFrame(tick);
+    };
+    audio.addEventListener('play', () => requestAnimationFrame(tick));
+
+    if (bar) {
+        let seeking = false;
+        const seekTo = (clientX) => {
+            const r = bar.getBoundingClientRect();
+            const ratio = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+            const d = getDur();
+            if (isFinite(d)) audio.currentTime = ratio * d;
+        };
+        bar.addEventListener('pointerdown', (e) => {
+            seeking = true;
+            try { bar.setPointerCapture(e.pointerId); } catch (err) { /* older browsers */ }
+            seekTo(e.clientX);
+            // Clicking/dragging the bar while paused starts playback instead of sitting silent at 0:00
+            if (audio.paused) start();
+        });
+        bar.addEventListener('pointermove', (e) => { if (seeking) seekTo(e.clientX); });
+        const stopSeek = () => { seeking = false; };
+        bar.addEventListener('pointerup', stopSeek);
+        bar.addEventListener('pointercancel', stopSeek);
+    }
+
+    const start = () => {
+        audio.play().then(() => {
+            wrap.classList.add('playing');
+            icon.className = 'fas fa-pause';
+            btn.setAttribute('aria-label', 'Pause ambient music');
+        }).catch(() => { /* playback blocked */ });
+    };
+
+    // Auto-start the music on the visitor's first interaction anywhere
+    let armed = true;
+    const startOnFirstInteract = (e) => {
+        if (!armed) return;
+        // ignore interactions on the player itself - its button handles toggling
+        if (e.target && e.target.closest && e.target.closest('#footer-music')) return;
+        armed = false;
+        start();
+        window.removeEventListener('pointerdown', startOnFirstInteract);
+        window.removeEventListener('keydown', startOnFirstInteract);
+        window.removeEventListener('wheel', startOnFirstInteract);
+    };
+    window.addEventListener('pointerdown', startOnFirstInteract);
+    window.addEventListener('keydown', startOnFirstInteract);
+    window.addEventListener('wheel', startOnFirstInteract, { passive: true });
+
+    // Auto-pause when the tab is hidden so the music doesn't play in the background
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden && !audio.paused) {
+            audio.pause();
+            wrap.classList.remove('playing');
+            icon.className = 'fas fa-play';
+            btn.setAttribute('aria-label', 'Play ambient music');
+        }
     });
 }

@@ -26,7 +26,7 @@
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <!-- Model Viewer for 3D Bike (self-hosted) -->
     <script type="module" src="./model-viewer.min.js"></script>
-    <link rel="stylesheet" href="styles.css?v=19.0">
+    <link rel="stylesheet" href="styles.css?v=22.0">
 </head>
 
 <body>
@@ -607,6 +607,32 @@
                     </a>
                 </div>
             </div>
+
+            <!-- Ambient music player -->
+            <div class="footer-music" id="footer-music">
+                <button class="music-toggle" id="music-toggle" aria-label="Play ambient music">
+                    <i class="fas fa-play" id="music-icon"></i>
+                </button>
+                <div class="music-meta">
+                    <div class="music-eq" aria-hidden="true">
+                        <span></span><span></span><span></span><span></span>
+                    </div>
+                    <span class="music-title">Sappheiros &mdash; Embrace</span>
+                </div>
+                <div class="music-progress" id="music-progress" role="slider" aria-label="Seek music" aria-valuemin="0"
+                    aria-valuemax="100" aria-valuenow="0">
+                    <div class="music-progress-fill" id="music-progress-fill"></div>
+                    <div class="music-progress-knob" id="music-progress-knob"></div>
+                </div>
+                <span class="music-time" id="music-time">0:00 / 0:00</span>
+                <input type="range" min="0" max="100" value="55" class="music-volume" id="music-volume"
+                    aria-label="Music volume">
+                <audio id="bg-music" loop preload="metadata">
+                    <source src="embrace.m4a" type="audio/mp4">
+                    <source src="embrace.opus" type="audio/ogg">
+                </audio>
+            </div>
+
             <div class="footer-bottom">
                 <p>&copy; 2026 Umesh Verma. All rights reserved.</p>
                 <p>Made with <i class="fas fa-heart" style="color: #ff6b6b;"></i> and lots of ☕</p>
@@ -614,7 +640,7 @@
         </div>
     </footer>
 
-    <script defer src="script.js?v=18.0"></script>
+    <script defer src="script.js?v=21.0"></script>
 </body>
 
 </html>
