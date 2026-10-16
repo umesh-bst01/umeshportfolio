@@ -1,75 +1,61 @@
-# 3D Holographic Portfolio 🏍️✨
+# Umesh Verma — Persona-Style Portfolio
 
-A high-end, immersive personal portfolio website featuring a **holographic interactive 3D bike**, glassmorphism UI, and smooth scroll animations. Built for performance and aesthetics.
+A **Persona 5 menu-inspired portfolio**: animated red diagonal stripes, ransom-note
+lettering, keyboard-driven navigation, screen-wipe transitions, a custom cursor,
+skill bars, a live GitHub feed, and a contact form that lands straight in my inbox.
 
-## 🌟 Key Features
-- **3D Interactive Core**: A rotating, floating holographic Apache bike model powered by Three.js.
-  - **Holographic Effect**: Transparent wireframe aesthetic with pulsing neon glow.
-  - **Interaction**: Bike tilts and follows mouse movement.
-  - **Easter Eggs**: Clickable interactions with tech-themed messages.
-- **Modern UI Design**:
-  - **Glassmorphism**: Frosted glass effects on cards and navigation.
-  - **Responsive**: Fully optimized for mobile and desktop.
-  - **Space Theme**: Dynamic starfield background with deep space atmosphere.
-- **Performance Optimized**: 
-  - 3D model loads via CDN to bypass hosting limits.
-  - Smooth 60fps animations using GSAP ScrollTrigger.
+Design inspired by [Numal400/Persona_style_portfolio](https://github.com/Numal400/Persona_style_portfolio),
+rebuilt from scratch with my own content, code and assets.
 
-## 🛠️ Technologies
-- **Frontend**: HTML5, CSS3 (Variables & Flexbox/Grid)
-- **3D Engine**: [Three.js](https://threejs.org/)
-- **Animations**: [GSAP](https://greensock.com/gsap/) (GreenSock)
-- **Model Format**: GLTF/GLB
+## Structure (Model–View–Controller)
 
-## 🚀 How to Run Locally
+```
+├── index.html            View skeleton — markup only, no logic or styles
+├── css/
+│   └── style.css         All styling (theme colors in :root at the top)
+├── js/
+│   ├── model.js          DATA — featured projects, skills, achievements, GitHub fetch
+│   ├── js/view.js        DOM — rendering, ransom lettering, wipe, cursor, synth SFX
+│   └── js/controller.js  EVENTS — keyboard/mouse input, navigation, contact form
+└── assets/
+    └── me.jpg            profile photo (home polaroid + about paper)
+```
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/not-umesh/uvportfolio111.git
-   cd uvportfolio111
-   ```
+## Editing content
 
-2. **Start a local server** (Required for 3D model loading due to CORS)
-   ```bash
-   # Python 3
-   python3 -m http.server 8000
-   
-   # OR with Node.js http-server
-   npx http-server
-   ```
+Everything lives in **js/model.js**: featured projects, skill bars, achievement
+stamps, thumbnail overrides, GitHub username, contact email.
+Bio and contact links are plain HTML in **index.html**.
+Colors are CSS variables at the top of **css/style.css**.
 
-3. **Open in Browser**
-   - Go to `http://localhost:8000`
+## Optional art slots
 
----
+- `assets/menus/<screen>.jpg` — per-screen background art (home, projects,
+  skills, about, contact). Missing files fall back to the CSS stripes.
+- `assets/projects/<RepoName>.png` — thumbnails for the "All repositories" cards.
+- `assets/hero.png` — reserved for future hero art.
 
-## 🌐 Deployment Instructions (InfinityFree)
+## Contact form
 
-This project is optimized for deployment on free hosting services like InfinityFree.
+Relayed via [formsubmit.co](https://formsubmit.co) to `umeshverma.mv@gmail.com`.
+**The first-ever submission emails a one-time activation link** — click it once
+and every future message arrives normally. If the relay is unreachable, the form
+falls back to opening the visitor's own mail app.
 
-### **Important Note on File Size**
-The 3D model (`apache-bike-model.glb`) is hosted on this GitHub repository and loaded via **High-Performance GitHub Raw CDN**. You **DO NOT** need to upload the heavy GLB file to your hosting provider.
+## Run locally
 
-### **Step-by-Step Deployment**
+```
+python3 -m http.server
+```
 
-1. **Log in** to your [InfinityFree File Manager](https://app.infinityfree.com/).
-2. Open the **`htdocs`** folder.
-3. **Delete** any default files (like `index2.html`).
-4. **Upload ONLY these 3 files**:
-   - `index.html`
-   - `styles.css`
-   - `script.js`
-   - `UvPortfolioimg.jpeg` (Profile Photo)
-   
-   *(Do NOT upload the .glb file. The code handles it automatically from the cloud.)*
+then open http://localhost:8000 — opening `index.html` directly (file://) blocks
+the GitHub API fetch in most browsers.
 
-5. **Done!** Visit your website URL.
+## Deploy
 
-> **Troubleshooting:**
-> - **Bike not showing?** Press `Ctrl + F5` (Windows) or `Cmd + Shift + R` (Mac) to hard refresh your cache.
-> - **Still incorrect?** Ensure you uploaded the *latest* version of `script.js` from this repo.
+Push to GitHub, enable **Settings → Pages → Deploy from a branch → main → / (root)**. Done.
 
----
+## Controls
 
-### © 2026 Umesh Verma
-Built with ❤️ and code.
+↑ / ↓ select · Enter confirm · Esc back · click the name to go home
+(on touch devices everything is tap-driven)
