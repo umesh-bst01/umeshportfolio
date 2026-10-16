@@ -637,6 +637,14 @@ body.has-video-home #big-name .ch:not(.box):not(.boxw){
   text-shadow:2px 2px 0 rgba(0,0,0,.65);
 }
 
+/* the home video carries its own composition — drop the CSS slash and the
+   code-drawn bursts/speed-lines/twinkles on the home screen only, so they
+   don't clutter the footage (sub-screens keep them) */
+body.has-video-home[data-screen="home"] #slash{display:none;}
+body.has-video-home[data-screen="home"] #speedlines,
+body.has-video-home[data-screen="home"] .burst,
+body.has-video-home[data-screen="home"] #twinkles{display:none;}
+
 /* ============ RESPONSIVE / MOTION ============ */
 @media (max-width:700px){
   .skill-row .name{width:130px;font-size:14px;}
