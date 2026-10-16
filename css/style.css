@@ -532,20 +532,27 @@ body:not([data-screen="home"]) #home-photo{display:none;}
 #wipe.go .flash{animation:flash .7s linear forwards;}
 @keyframes flash{0%,44%{opacity:0;}48%{opacity:1;}56%{opacity:0;}100%{opacity:0;}}
 
-/* ============ CUSTOM CURSOR (pure CSS, no sprite assets) ============ */
+/* ============ CUSTOM CURSOR (pure CSS, no sprite assets) ============
+   Outer div only tracks the pointer (translate, set per frame);
+   inner arrow only handles appearance, so its rotate/scale/color
+   transitions never fight the per-frame transform. */
 @media (pointer:fine){
   body.cursor-on, body.cursor-on *{cursor:none !important;}
 }
 #cursor{
-  position:fixed;left:0;top:0;width:22px;height:22px;z-index:100000;
+  position:fixed;left:0;top:0;z-index:100000;
   pointer-events:none;display:none;
-  margin:-4px 0 0 -3px;
-  background:var(--white);
-  clip-path:polygon(0 0, 100% 42%, 46% 58%, 62% 100%, 40% 100%, 26% 62%, 0 78%);
-  filter:drop-shadow(2px 2px 0 var(--black));
-  transition:background .12s, rotate .15s;
+  will-change:transform;
 }
-#cursor.link{
+#cursor-arrow{
+  width:22px;height:22px;
+  margin:-3px 0 0 -3px;
+  background:var(--white);
+  clip-path:polygon(0 0, 56% 52%, 32% 52%, 46% 86%, 32% 92%, 18% 58%, 0 72%);
+  filter:drop-shadow(2px 2px 0 var(--black));
+  transition:background .12s, rotate .15s, scale .15s;
+}
+#cursor.link #cursor-arrow{
   background:var(--red);
   rotate:20deg;
   scale:1.25;
