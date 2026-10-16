@@ -2,6 +2,15 @@
    CONTROLLER — listens to the user, updates the Model, tells the View.
    ===================================================================== */
 
+const SCREENS = ["home", "projects", "skills", "about", "contact"];
+const SCREEN_TITLES = {
+  home: "UMESH VERMA · PORTFOLIO",
+  projects: "PROJECTS · UMESH VERMA",
+  skills: "SKILLS · UMESH VERMA",
+  about: "ABOUT · UMESH VERMA",
+  contact: "CONTACT · UMESH VERMA",
+};
+
 const Controller = {
 
   transitioning: false,
@@ -13,6 +22,7 @@ const Controller = {
     this.bindBackButtons();
     this.bindAudioToggle();
     this.bindContactForm();
+    this.bindHistory();
   },
 
   /* ---------- Contact form (relayed via formsubmit.co, mailto fallback) ---------- */
@@ -60,21 +70,47 @@ const Controller = {
   },
 
   /* ---------- Navigation ---------- */
-  goTo(screen) {
+  goTo(screen, push = true) {
     if (this.transitioning || screen === Model.state.screen) return;
     this.transitioning = true;
     View.playSelect();
+    // hash routing: the browser/mobile back button then walks the screens
+    if (push) history.pushState({ screen }, "", "#" + screen);
 
     View.wipe(
       () => {                       // mid-wipe: swap screens while covered
         Model.state.screen = screen;
         View.showScreen(screen);
+        document.title = SCREEN_TITLES[screen];
         if (screen === "projects") this.loadProjects();
         if (screen === "skills") this.loadSkills();
         if (screen === "about") View.renderAchievements(Model.achievements);
       },
       () => { this.transitioning = false; }
     );
+  },
+
+  /* ---------- Browser back/forward + deep links (#skills etc.) ----------
+     popstate fires for the browser back button and the mobile back
+     gesture, so both walk the screens instead of leaving the site. */
+  bindHistory() {
+    const initial = (location.hash || "#home").slice(1);
+    if (SCREENS.includes(initial) && initial !== "home") {
+      history.replaceState({ screen: initial }, "", "#" + initial);
+      Model.state.screen = initial;
+      View.showScreen(initial);
+      document.title = SCREEN_TITLES[initial];
+      if (initial === "projects") this.loadProjects();
+      if (initial === "skills") this.loadSkills();
+      if (initial === "about") View.renderAchievements(Model.achievements);
+    }
+    addEventListener("popstate", e => {
+      const target = (e.state && e.state.screen) ||
+        (location.hash || "#home").slice(1) || "home";
+      if (!SCREENS.includes(target)) return;
+      if (target !== Model.state.screen) this.goTo(target, false);
+      else document.title = SCREEN_TITLES[target];
+    });
   },
 
   select(index) {
