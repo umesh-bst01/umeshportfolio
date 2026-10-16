@@ -35,6 +35,7 @@ const View = {
     this.startParallax();
     this.startCursor();
     this.syncArtVisibility(Model.state.screen);
+    this.startMusicPlayer();
     document.body.classList.add("loaded");
   },
 
@@ -317,6 +318,94 @@ const View = {
     requestAnimationFrame(() => requestAnimationFrame(() => {
       fills.forEach((f, i) => setTimeout(() => { f.style.width = f.dataset.v + "%"; }, i * 60));
     }));
+  },
+
+  /* ---------- Floating music player (liquid glass) ---------- */
+  startMusicPlayer() {
+    const wrap = document.getElementById("music-float");
+    const btn  = document.getElementById("music-toggle");
+    const audio = document.getElementById("bg-music");
+    const vol  = document.getElementById("music-volume");
+    if (!wrap || !btn || !audio) return;
+
+    const bar  = document.getElementById("music-progress");
+    const fill = document.getElementById("music-progress-fill");
+    const knob = document.getElementById("music-progress-knob");
+    const timeEl = document.getElementById("music-time");
+    const fmt = s => {
+      if (!isFinite(s)) return "0:00";
+      const m = Math.floor(s / 60), sec = Math.floor(s % 60);
+      return m + ":" + String(sec).padStart(2, "0");
+    };
+    // Safari can report Infinity while streaming and throttles timeupdate,
+    // so fall back to seekable ranges and drive the bar with rAF
+    const dur = () => {
+      if (isFinite(audio.duration) && audio.duration > 0) return audio.duration;
+      if (audio.seekable && audio.seekable.length) return audio.seekable.end(audio.seekable.length - 1);
+      return NaN;
+    };
+    const sync = () => {
+      const d = dur();
+      const pct = isFinite(d) && d > 0 ? (audio.currentTime / d) * 100 : 0;
+      if (fill) fill.style.width = pct + "%";
+      if (knob) knob.style.left = pct + "%";
+      if (bar) bar.setAttribute("aria-valuenow", Math.round(pct));
+      if (timeEl) timeEl.textContent = fmt(audio.currentTime) + " / " + fmt(d);
+    };
+    audio.addEventListener("timeupdate", sync);
+    audio.addEventListener("loadedmetadata", sync);
+    audio.addEventListener("seeked", sync);
+
+    const setPlaying = on => wrap.classList.toggle("playing", on);
+    const play = () => {
+      const p = audio.play();
+      if (p && p.catch) p.catch(() => {});
+    };
+
+    btn.addEventListener("click", () => {
+      if (audio.paused) play(); else audio.pause();
+    });
+    audio.addEventListener("play", () => { setPlaying(true); raf(); });
+    audio.addEventListener("pause", () => setPlaying(false));
+
+    if (vol) {
+      audio.volume = parseInt(vol.value, 10) / 100;
+      vol.addEventListener("input", () => {
+        audio.volume = parseInt(vol.value, 10) / 100;
+        vol.parentElement.querySelector(".mf-vol-ic").textContent =
+          audio.volume === 0 ? "🔇" : audio.volume < .5 ? "🔈" : "🔊";
+      });
+    }
+
+    if (bar) {
+      let seeking = false;
+      const seekTo = clientX => {
+        const r = bar.getBoundingClientRect();
+        const ratio = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+        const d = dur();
+        if (isFinite(d)) audio.currentTime = ratio * d;
+      };
+      bar.addEventListener("pointerdown", e => {
+        seeking = true;
+        wrap.classList.add("seeking");
+        try { bar.setPointerCapture(e.pointerId); } catch {}
+        seekTo(e.clientX);
+      });
+      bar.addEventListener("pointermove", e => { if (seeking) seekTo(e.clientX); });
+      const stop = () => { seeking = false; wrap.classList.remove("seeking"); };
+      bar.addEventListener("pointerup", stop);
+      bar.addEventListener("pointercancel", stop);
+    }
+
+    // rAF loop only while playing (keeps the bar silky in every browser)
+    const raf = () => {
+      if (audio.paused) return;
+      sync();
+      requestAnimationFrame(raf);
+    };
+
+    // slide the player in shortly after load
+    setTimeout(() => wrap.classList.add("in"), 700);
   },
 
   /* ---------- Ambient: clock, parallax, custom cursor ---------- */

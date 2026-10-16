@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=1.6">
+<link rel="stylesheet" href="css/style.css?v=1.7">
 </head>
 <body data-screen="home">
 
@@ -252,9 +252,32 @@
   </div>
 </div>
 
+<!-- Floating liquid-glass music player -->
+<div id="music-float" aria-label="Ambient music player">
+  <button id="music-toggle" aria-label="Play ambient music">
+    <span class="ic-play"></span><span class="ic-pause"></span>
+  </button>
+  <div class="mf-mid">
+    <span class="mf-title">SAPPHIEROS · EMBRACE</span>
+    <div class="mf-bar" id="music-progress" role="slider" aria-label="Seek music"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="mf-fill" id="music-progress-fill"></div>
+      <div class="mf-knob" id="music-progress-knob"></div>
+    </div>
+  </div>
+  <span class="mf-time" id="music-time">0:00 / 0:00</span>
+  <label class="mf-vol" aria-label="Music volume">
+    <span class="mf-vol-ic">🔊</span>
+    <input type="range" id="music-volume" min="0" max="100" value="55">
+  </label>
+  <audio id="bg-music" loop preload="metadata">
+    <source src="assets/music/embrace.m4a" type="audio/mp4">
+  </audio>
+</div>
+
 <!-- MVC: model = data, view = DOM, controller = events (version-busted) -->
-<script src="js/model.js?v=1.5" defer></script>
-<script src="js/view.js?v=1.5" defer></script>
-<script src="js/controller.js?v=1.5" defer></script>
+<script src="js/model.js?v=1.6" defer></script>
+<script src="js/view.js?v=1.6" defer></script>
+<script src="js/controller.js?v=1.6" defer></script>
 </body>
 </html>
