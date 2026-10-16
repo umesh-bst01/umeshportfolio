@@ -574,6 +574,69 @@ body:not([data-screen="home"]) #home-photo{display:none;}
   box-shadow:2px 2px 0 var(--red-deep);
 }
 
+/* ============ PER-SCREEN BACKGROUND ART (video > image > stripes) ============ */
+/* Each screen can carry assets/menus/<screen>.mp4 and/or <screen>.jpg.
+   Missing files remove themselves; the CSS stripes show through. */
+.menu-art{
+  position:fixed;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;will-change:transform;pointer-events:none;
+  transition:opacity .55s ease;
+}
+body[data-screen="home"]     #art-video-home,
+body[data-screen="projects"] #art-video-projects,
+body[data-screen="skills"]   #art-video-skills,
+body[data-screen="about"]    #art-video-about,
+body[data-screen="contact"]  #art-video-contact,
+body[data-screen="home"]     #art-home,
+body[data-screen="projects"] #art-projects,
+body[data-screen="skills"]   #art-skills,
+body[data-screen="about"]    #art-about,
+body[data-screen="contact"]  #art-contact{opacity:1;}
+
+/* when a screen's video loaded, its static image steps aside */
+body.has-video-home     #art-home,
+body.has-video-projects #art-projects,
+body.has-video-skills   #art-skills,
+body.has-video-about    #art-about,
+body.has-video-contact  #art-contact{display:none;}
+
+/* soften the halftone overlay whenever art is showing on that screen */
+body.has-art-home[data-screen="home"] #bg-halftone,
+body.has-art-projects[data-screen="projects"] #bg-halftone,
+body.has-art-skills[data-screen="skills"] #bg-halftone,
+body.has-art-about[data-screen="about"] #bg-halftone,
+body.has-art-contact[data-screen="contact"] #bg-halftone,
+body.has-video-home[data-screen="home"] #bg-halftone,
+body.has-video-projects[data-screen="projects"] #bg-halftone,
+body.has-video-skills[data-screen="skills"] #bg-halftone,
+body.has-video-about[data-screen="about"] #bg-halftone,
+body.has-video-contact[data-screen="contact"] #bg-halftone{opacity:.5;}
+
+/* readability scrim — darken the side the content sits on while art shows.
+   Home/Skills content sits left, About/Contact right. */
+body.has-video-home[data-screen="home"] #bg-vignette,
+body.has-video-skills[data-screen="skills"] #bg-vignette{
+  background:
+    linear-gradient(100deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.18) 36%, transparent 58%),
+    radial-gradient(ellipse at 32% 40%, transparent 30%, rgba(0,0,0,.55) 100%);
+}
+body.has-video-about[data-screen="about"] #bg-vignette,
+body.has-video-contact[data-screen="contact"] #bg-vignette{
+  background:
+    linear-gradient(260deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.2) 38%, transparent 60%),
+    radial-gradient(ellipse at 68% 40%, transparent 30%, rgba(0,0,0,.55) 100%);
+}
+body.has-video-projects[data-screen="projects"] #bg-vignette{
+  background:
+    linear-gradient(100deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.18) 36%, transparent 58%),
+    radial-gradient(ellipse at 32% 40%, transparent 30%, rgba(0,0,0,.55) 100%);
+}
+/* keep ransom lettering readable over bright footage */
+body.has-video-home #menu .ch:not(.box):not(.boxw),
+body.has-video-home #big-name .ch:not(.box):not(.boxw){
+  text-shadow:2px 2px 0 rgba(0,0,0,.65);
+}
+
 /* ============ RESPONSIVE / MOTION ============ */
 @media (max-width:700px){
   .skill-row .name{width:130px;font-size:14px;}

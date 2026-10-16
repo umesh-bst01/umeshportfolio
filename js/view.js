@@ -25,6 +25,7 @@ const View = {
     });
     this.els.menuItems = [...document.querySelectorAll(".menu-item")];
     document.querySelectorAll("[data-ransom]").forEach(el => this.ransomize(el));
+    this.wireArtVideos();
     this.buildAnimeBg();
     this.startClock();
     this.startParallax();
@@ -68,6 +69,44 @@ const View = {
       }
 
       el.appendChild(span);
+    });
+  },
+
+  /* ---------- Per-screen background videos ----------
+     Missing file → source error → video removes itself (falls back to the
+     image slot / CSS stripes). Loaded → tag body, then force playback:
+     autoplay alone can stall when data arrives after the load started. */
+  wireArtVideos() {
+    document.querySelectorAll("video.menu-art").forEach(v => {
+      const screen = v.id.replace("art-video-", "");
+      const kill = () => v.remove();
+      if (v.querySelector("source")) {
+        v.querySelector("source").addEventListener("error", kill);
+      }
+      v.addEventListener("error", kill);
+      v.addEventListener("loadeddata", () => {
+        document.body.classList.add("has-video-" + screen);
+        v.muted = true;
+        const tryPlay = () => {
+          const p = v.play();
+          if (p && p.catch) p.catch(() => {});
+        };
+        tryPlay();
+        // belt and braces: if autoplay was refused or stalled, the visitor's
+        // first interaction (or returning to the tab) starts it
+        const kick = () => {
+          if (v.paused) tryPlay();
+          window.removeEventListener("pointerdown", kick);
+          window.removeEventListener("keydown", kick);
+          window.removeEventListener("wheel", kick);
+        };
+        window.addEventListener("pointerdown", kick);
+        window.addEventListener("keydown", kick);
+        window.addEventListener("wheel", kick, { passive: true });
+        document.addEventListener("visibilitychange", () => {
+          if (!document.hidden && v.paused) tryPlay();
+        });
+      });
     });
   },
 
@@ -280,6 +319,7 @@ const View = {
     const stripes = document.getElementById("bg-stripes");
     const halftone = document.getElementById("bg-halftone");
     const art = document.getElementById("home-photo");
+    const arts = [...document.querySelectorAll(".menu-art")];
     let tx = 0, ty = 0, cx = 0, cy = 0;
     addEventListener("mousemove", e => {
       tx = e.clientX / innerWidth - 0.5;
@@ -289,6 +329,11 @@ const View = {
       cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;
       stripes.style.transform = `translate(${cx * 22}px, ${cy * 14}px)`;
       halftone.style.transform = `translate(${cx * -34}px, ${cy * -22}px)`;
+      // slight drift + over-scale so art edges never peek while moving
+      arts.forEach(a => {
+        if (a.isConnected)
+          a.style.transform = `translate(${cx * 14}px, ${cy * 9}px) scale(1.05)`;
+      });
       if (art && art.isConnected)
         art.style.transform = `translate(${cx * -12}px, ${cy * -8}px) rotate(4deg)`;
       requestAnimationFrame(loop);

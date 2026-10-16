@@ -35,10 +35,52 @@ Colors are CSS variables at the top of **css/style.css**.
 
 ## Optional art slots
 
-- `assets/menus/<screen>.jpg` — per-screen background art (home, projects,
-  skills, about, contact). Missing files fall back to the CSS stripes.
-- `assets/projects/<RepoName>.png` — thumbnails for the "All repositories" cards.
-- `assets/hero.png` — reserved for future hero art.
+### Background videos (like the original reference)
+
+The reference repo shipped with Persona-style **background videos** but excluded
+them from GitHub because they were 500MB+. You don't need huge files — a short,
+compressed loop looks identical in fullscreen. The site supports a video on
+**every screen**:
+
+1. Drop your clip at `assets/menus/<screen>.mp4` — one of:
+   `home.mp4`, `projects.mp4`, `skills.mp4`, `about.mp4`, `contact.mp4`
+2. Commit and push. Done — no code changes needed.
+
+Priority per screen: **video → image (`<screen>.jpg`) → animated CSS stripes.**
+Missing files hide themselves; nothing breaks.
+
+**Video specs (important for GitHub Pages):**
+
+| Spec | Target | Why |
+|---|---|---|
+| Length | 10–20s seamless loop | loops invisibly |
+| Resolution | 1280×720 | crisp enough fullscreen |
+| Codec | H.264 MP4 (`-movflags +faststart`) | plays everywhere, starts fast |
+| Audio | **remove it** (`-an`) | muted videos autoplay in every browser |
+| Size | **≤15MB** | GitHub blocks files >100MB, warns >50MB; big files stay in git history forever |
+
+**Compress any video to spec** (ffmpeg, free):
+
+```
+ffmpeg -i input.mp4 -vf "scale=1280:-2" -an -c:v libx264 -crf 26 -preset slow -movflags +faststart assets/menus/home.mp4
+```
+
+(`-crf 26` trades a little quality for a lot of size; raise to 23 for better
+quality, lower to 30 for smaller files. Trim to a loop first, e.g.
+`-ss 3 -t 12` for 12 seconds starting at 0:03.)
+
+**Where to get footage:** search YouTube for "Persona 5 menu background" /
+"All-Out Attack" clips, download a short segment, then run it through the
+command above. Heads up: Persona 5 footage is Atlus/SEGA IP — fine for a
+personal fan portfolio (the reference author does the same), just don't
+monetize the site.
+
+### Static images
+
+- `assets/menus/<screen>.jpg` — per-screen background art (used when no video
+  exists for that screen)
+- `assets/projects/<RepoName>.png` — thumbnails for the "All repositories" cards
+- `assets/hero.png` — reserved for future hero art
 
 ## Contact form
 
