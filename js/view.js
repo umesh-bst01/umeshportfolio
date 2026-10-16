@@ -25,11 +25,16 @@ const View = {
     });
     this.els.menuItems = [...document.querySelectorAll(".menu-item")];
     document.querySelectorAll("[data-ransom]").forEach(el => this.ransomize(el));
+    // stamp each art slot with its screen id (art-video-<s> / art-<s>)
+    document.querySelectorAll(".menu-art").forEach(a => {
+      a.dataset.screen = a.id.replace("art-video-", "").replace("art-", "");
+    });
     this.wireArtVideos();
     this.buildAnimeBg();
     this.startClock();
     this.startParallax();
     this.startCursor();
+    this.syncArtVisibility(Model.state.screen);
     document.body.classList.add("loaded");
   },
 
@@ -169,6 +174,16 @@ const View = {
     s[name].classList.add("active");
     s[name].scrollTop = 0;
     document.body.dataset.screen = name;
+    this.syncArtVisibility(name);
+  },
+
+  // Reveal the active screen's background art via inline opacity — some
+  // webviews stall stylesheet-driven opacity transitions on these layers,
+  // so JS owns the value; the CSS rules remain as a no-JS fallback.
+  syncArtVisibility(screen) {
+    document.querySelectorAll(".menu-art").forEach(a => {
+      a.style.opacity = a.dataset.screen === screen ? "1" : "0";
+    });
   },
 
   setMenuSelection(index) {

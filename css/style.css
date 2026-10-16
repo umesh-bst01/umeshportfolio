@@ -613,9 +613,8 @@ body.has-video-about[data-screen="about"] #bg-halftone,
 body.has-video-contact[data-screen="contact"] #bg-halftone{opacity:.5;}
 
 /* readability scrim — darken the side the content sits on while art shows.
-   Home/Skills content sits left, About/Contact right. */
-body.has-video-home[data-screen="home"] #bg-vignette,
-body.has-video-skills[data-screen="skills"] #bg-vignette{
+   Home sits left; About/Contact right. */
+body.has-video-home[data-screen="home"] #bg-vignette{
   background:
     linear-gradient(100deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.18) 36%, transparent 58%),
     radial-gradient(ellipse at 32% 40%, transparent 30%, rgba(0,0,0,.55) 100%);
@@ -626,10 +625,16 @@ body.has-video-contact[data-screen="contact"] #bg-vignette{
     linear-gradient(260deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.2) 38%, transparent 60%),
     radial-gradient(ellipse at 68% 40%, transparent 30%, rgba(0,0,0,.55) 100%);
 }
+/* the silhouette footage is near-white — even out the dim so the white
+   cards, skill bars and lettering keep their contrast on top of it */
 body.has-video-projects[data-screen="projects"] #bg-vignette{
+  background:linear-gradient(100deg,
+    rgba(0,0,0,.62) 0%, rgba(0,0,0,.4) 45%, rgba(0,0,0,.52) 100%);
+}
+body.has-video-skills[data-screen="skills"] #bg-vignette{
   background:
-    linear-gradient(100deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.18) 36%, transparent 58%),
-    radial-gradient(ellipse at 32% 40%, transparent 30%, rgba(0,0,0,.55) 100%);
+    linear-gradient(100deg, rgba(0,0,0,.66) 0%, rgba(0,0,0,.4) 50%, rgba(0,0,0,.16) 100%),
+    radial-gradient(ellipse at 28% 45%, transparent 18%, rgba(0,0,0,.32) 100%);
 }
 /* keep ransom lettering readable over bright footage */
 body.has-video-home #menu .ch:not(.box):not(.boxw),
@@ -637,13 +642,29 @@ body.has-video-home #big-name .ch:not(.box):not(.boxw){
   text-shadow:2px 2px 0 rgba(0,0,0,.65);
 }
 
-/* the home video carries its own composition — drop the CSS slash and the
-   code-drawn bursts/speed-lines/twinkles on the home screen only, so they
-   don't clutter the footage (sub-screens keep them) */
-body.has-video-home[data-screen="home"] #slash{display:none;}
+/* a screen's video carries its own composition — on that screen only, drop
+   the CSS slash and code-drawn bursts/speed-lines/twinkles so they don't
+   sit on top of the footage (screens without video keep them) */
+body.has-video-home[data-screen="home"] #slash,
+body.has-video-projects[data-screen="projects"] #slash,
+body.has-video-skills[data-screen="skills"] #slash,
+body.has-video-about[data-screen="about"] #slash,
+body.has-video-contact[data-screen="contact"] #slash{display:none;}
 body.has-video-home[data-screen="home"] #speedlines,
 body.has-video-home[data-screen="home"] .burst,
-body.has-video-home[data-screen="home"] #twinkles{display:none;}
+body.has-video-home[data-screen="home"] #twinkles,
+body.has-video-projects[data-screen="projects"] #speedlines,
+body.has-video-projects[data-screen="projects"] .burst,
+body.has-video-projects[data-screen="projects"] #twinkles,
+body.has-video-skills[data-screen="skills"] #speedlines,
+body.has-video-skills[data-screen="skills"] .burst,
+body.has-video-skills[data-screen="skills"] #twinkles,
+body.has-video-about[data-screen="about"] #speedlines,
+body.has-video-about[data-screen="about"] .burst,
+body.has-video-about[data-screen="about"] #twinkles,
+body.has-video-contact[data-screen="contact"] #speedlines,
+body.has-video-contact[data-screen="contact"] .burst,
+body.has-video-contact[data-screen="contact"] #twinkles{display:none;}
 
 /* ============ RESPONSIVE / MOTION ============ */
 @media (max-width:700px){
