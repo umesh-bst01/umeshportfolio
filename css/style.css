@@ -533,9 +533,10 @@ body:not([data-screen="home"]) #home-photo{display:none;}
 @keyframes flash{0%,44%{opacity:0;}48%{opacity:1;}56%{opacity:0;}100%{opacity:0;}}
 
 /* ============ CUSTOM CURSOR (pure CSS, no sprite assets) ============
-   Outer div only tracks the pointer (translate, set per frame);
-   inner arrow only handles appearance, so its rotate/scale/color
-   transitions never fight the per-frame transform. */
+   Outer div only tracks the pointer — its transform is set synchronously
+   in the mousemove handler, so it can never lag behind the real pointer.
+   The inner arrow handles appearance only: a black offset layer + the
+   arrow shape (no filters, which ghost on moving WebKit layers). */
 @media (pointer:fine){
   body.cursor-on, body.cursor-on *{cursor:none !important;}
 }
@@ -547,16 +548,17 @@ body:not([data-screen="home"]) #home-photo{display:none;}
 #cursor-arrow{
   width:22px;height:22px;
   margin:-3px 0 0 -3px;
-  background:var(--white);
+  position:relative;
+  transition:rotate .15s, scale .15s;
+}
+#cursor-arrow .c-shadow,#cursor-arrow .c-shape{
+  position:absolute;inset:0;display:block;
   clip-path:polygon(0 0, 56% 52%, 32% 52%, 46% 86%, 32% 92%, 18% 58%, 0 72%);
-  filter:drop-shadow(2px 2px 0 var(--black));
-  transition:background .12s, rotate .15s, scale .15s;
 }
-#cursor.link #cursor-arrow{
-  background:var(--red);
-  rotate:20deg;
-  scale:1.25;
-}
+#cursor-arrow .c-shadow{background:var(--black);transform:translate(3px,3px);}
+#cursor-arrow .c-shape{background:var(--white);transition:background .12s;}
+#cursor.link #cursor-arrow{rotate:20deg;scale:1.25;}
+#cursor.link #cursor-arrow .c-shape{background:var(--red);}
 
 /* ============ AUDIO TOGGLE ============ */
 #audio-toggle{

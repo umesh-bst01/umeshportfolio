@@ -296,16 +296,18 @@ const View = {
     loop();
   },
 
-  // CSS-drawn Persona-style cursor (no sprite assets needed)
+  // CSS-drawn Persona-style cursor (no sprite assets needed).
+  // Position is applied synchronously on every mousemove — no rAF indirection —
+  // so it tracks the real pointer 1:1 even when the main thread is busy.
   startCursor() {
     if (!matchMedia("(pointer:fine)").matches || this.reducedMotion) return;
     const cur = this.els.cursor;
     document.body.classList.add("cursor-on");
-    let x = -100, y = -100, visible = false;
+    let visible = false;
 
     addEventListener("mousemove", e => {
-      x = e.clientX; y = e.clientY;
       if (!visible) { cur.style.display = "block"; visible = true; }
+      cur.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
       const t = e.target;
       const overLink = t.closest &&
         t.closest("a,button,.card,.menu-item,.back-hint,.contact-chip,#big-name");
@@ -315,11 +317,5 @@ const View = {
     document.documentElement.addEventListener("mouseleave", () => {
       cur.style.display = "none"; visible = false;
     });
-
-    const tick = () => {
-      cur.style.transform = `translate(${x}px, ${y}px)`;
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
   },
 };
