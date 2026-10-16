@@ -25,6 +25,7 @@ const View = {
     });
     this.els.menuItems = [...document.querySelectorAll(".menu-item")];
     document.querySelectorAll("[data-ransom]").forEach(el => this.ransomize(el));
+    this.buildAnimeBg();
     this.startClock();
     this.startParallax();
     this.startCursor();
@@ -68,6 +69,58 @@ const View = {
 
       el.appendChild(span);
     });
+  },
+
+  /* ---------- Anime background layer (bursts, twinkles, ticker) ---------- */
+  // Jagged manga starburst polygon points (deterministic per seed)
+  burstPoints(spikes, R, r, seed) {
+    const pts = [];
+    for (let i = 0; i < spikes * 2; i++) {
+      const a = (Math.PI / spikes) * i - Math.PI / 2;
+      const rad = (i % 2 ? r : R) * (0.82 + (this.hash(seed + i) % 34) / 100);
+      pts.push((50 + Math.cos(a) * rad).toFixed(2) + "," + (50 + Math.sin(a) * rad).toFixed(2));
+    }
+    return pts.join(" ");
+  },
+
+  buildAnimeBg() {
+    const host = document.getElementById("anime-bg");
+    if (!host) return;
+
+    // starbursts: [svg element, spikes, outer R, inner r, seed]
+    const bursts = [
+      ["b1", 14, 62, 34, "umesh-b1"],   // big black burst over the stripes
+      ["b2", 11, 48, 27, "umesh-b2"],   // outlined burst over the slash
+      ["b3", 8, 30, 18, "umesh-b3"],    // small red burst
+    ];
+    bursts.forEach(([cls, spikes, R, r, seed]) => {
+      const svg = host.querySelector("." + cls);
+      if (!svg) return;
+      const poly = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+      poly.setAttribute("points", this.burstPoints(spikes, R, r, seed));
+      poly.setAttribute("vector-effect", "non-scaling-stroke");
+      svg.appendChild(poly);
+    });
+
+    // twinkling 4-point sparkles at deterministic positions
+    const wrap = host.querySelector("#twinkles");
+    for (let i = 0; i < 12; i++) {
+      const t = document.createElement("span");
+      t.className = "twinkle";
+      const h = this.hash("twinkle" + i);
+      t.style.left = (4 + (h % 92)) + "%";
+      t.style.top = (6 + ((h >> 4) % 86)) + "%";
+      const size = 10 + ((h >> 8) % 16);
+      t.style.width = size + "px";
+      t.style.height = size + "px";
+      t.style.animationDelay = ((h >> 12) % 40) / 10 + "s";
+      t.style.animationDuration = (1.6 + ((h >> 16) % 22) / 10) + "s";
+      wrap.appendChild(t);
+    }
+
+    // Persona ticker strip
+    const strip = host.querySelector("#ticker-strip");
+    if (strip) strip.textContent = "TAKE YOUR TIME ★ UMESH VERMA ★ AI & FULL-STACK ★ ".repeat(8);
   },
 
   /* ---------- Screens & menu ---------- */

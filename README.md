@@ -4,6 +4,11 @@ A **Persona 5 menu-inspired portfolio**: animated red diagonal stripes, ransom-n
 lettering, keyboard-driven navigation, screen-wipe transitions, a custom cursor,
 skill bars, a live GitHub feed, and a contact form that lands straight in my inbox.
 
+The anime-style background (jagged manga starbursts, rotating speed-lines,
+twinkling sparkles, and the "TAKE YOUR TIME" ticker) is **drawn entirely in
+code** — SVG polygons + CSS animations, no video assets, so it stays under 50 KB
+and respects `prefers-reduced-motion`.
+
 Design inspired by [Numal400/Persona_style_portfolio](https://github.com/Numal400/Persona_style_portfolio),
 rebuilt from scratch with my own content, code and assets.
 

@@ -52,6 +52,85 @@ body[data-screen]:not([data-screen="home"]) #slash{
   clip-path:polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 62%, 0 60%, 0 24%, 0 22%);
 }
 
+/* ============ ANIME BACKGROUND LAYER (code-drawn, no video) ============ */
+#anime-bg{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+
+/* rotating speed-lines radiating from center, fading at the edges */
+#speedlines{
+  position:absolute;inset:-25%;
+  background:repeating-conic-gradient(from 0deg at 50% 50%,
+    rgba(255,255,255,.09) 0deg 0.9deg, transparent 0.9deg 6.5deg);
+  -webkit-mask:radial-gradient(circle at 50% 50%,
+    transparent 16%, #000 42%, #000 72%, transparent 76%);
+  mask:radial-gradient(circle at 50% 50%,
+    transparent 16%, #000 42%, #000 72%, transparent 76%);
+  animation:spinSlow 140s linear infinite;
+}
+@keyframes spinSlow{to{transform:rotate(360deg);}}
+
+/* jagged manga starbursts */
+.burst{position:absolute;transform-origin:center;}
+.burst polygon{transform-origin:center;transform-box:fill-box;}
+.b1{
+  right:2%;top:-12%;width:min(56vmax,700px);height:min(56vmax,700px);
+  animation:burstPulse 11s ease-in-out infinite;
+}
+.b1 polygon{fill:var(--black);stroke:var(--red);stroke-width:.7;}
+.b2{
+  left:-6%;bottom:-14%;width:min(46vmax,560px);height:min(46vmax,560px);
+  animation:burstPulse 14s ease-in-out -4s infinite reverse;
+}
+.b2 polygon{fill:none;stroke:rgba(246,244,239,.68);stroke-width:.7;}
+.b3{
+  left:30%;top:6%;width:min(20vmax,240px);height:min(20vmax,240px);
+  animation:burstPulse 9s ease-in-out -2s infinite;
+}
+.b3 polygon{fill:var(--red);stroke:var(--black);stroke-width:.8;}
+@keyframes burstPulse{
+  0%,100%{transform:rotate(0deg) scale(1);}
+  50%{transform:rotate(9deg) scale(1.07);}
+}
+
+/* twinkling 4-point sparkles */
+.twinkle{
+  position:absolute;
+  background:var(--white);
+  clip-path:polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  filter:drop-shadow(0 0 6px rgba(255,255,255,.85));
+  opacity:0;
+  animation:twinkle linear infinite;
+}
+@keyframes twinkle{
+  0%,100%{opacity:0;transform:scale(.4) rotate(0deg);}
+  50%{opacity:.95;transform:scale(1.1) rotate(45deg);}
+}
+
+/* TAKE YOUR TIME ticker strip (home only) */
+#ticker{
+  position:fixed;left:-12%;right:-12%;bottom:17%;z-index:1;
+  transform:rotate(-7deg);overflow:hidden;
+  background:var(--black);
+  border-top:2px solid var(--white);
+  border-bottom:2px solid var(--white);
+  box-shadow:0 0 24px rgba(0,0,0,.5);
+  padding:5px 0;
+  opacity:.92;
+}
+.ticker-strip{
+  display:inline-block;white-space:nowrap;
+  font-family:'Archivo Black','Arial Black',Impact,sans-serif;
+  font-size:15px;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--white);
+  animation:tickerMove 26s linear infinite;
+}
+@keyframes tickerMove{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+body:not([data-screen="home"]) #ticker{display:none;}
+@media (max-width:700px){
+  #ticker{bottom:12%;}
+  .ticker-strip{font-size:12px;letter-spacing:.26em;}
+  .b1{width:80vmax;height:80vmax;top:-24%;right:-18%;}
+}
+
 /* ============ SHELL / HUD ============ */
 #shell{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;}
 #hud-top{
