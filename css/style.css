@@ -580,7 +580,8 @@ body:not([data-screen="home"]) #home-photo{display:none;}
 .menu-art{
   position:fixed;inset:0;width:100%;height:100%;object-fit:cover;
   opacity:0;will-change:transform;pointer-events:none;
-  transition:opacity .55s ease;
+  /* no opacity transition: JS swaps art mid-wipe, and some webviews
+     freeze transitions on these fixed layers (video stays invisible) */
 }
 body[data-screen="home"]     #art-video-home,
 body[data-screen="projects"] #art-video-projects,
@@ -625,11 +626,12 @@ body.has-video-contact[data-screen="contact"] #bg-vignette{
     linear-gradient(260deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.2) 38%, transparent 60%),
     radial-gradient(ellipse at 68% 40%, transparent 30%, rgba(0,0,0,.55) 100%);
 }
-/* the silhouette footage is near-white — even out the dim so the white
-   cards, skill bars and lettering keep their contrast on top of it */
+/* the Spider-Verse footage is vivid and mid-dark — a light left scrim is
+   enough for the white lettering, and the cards pop against the colors */
 body.has-video-projects[data-screen="projects"] #bg-vignette{
-  background:linear-gradient(100deg,
-    rgba(0,0,0,.62) 0%, rgba(0,0,0,.4) 45%, rgba(0,0,0,.52) 100%);
+  background:
+    linear-gradient(100deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.18) 40%, rgba(0,0,0,.3) 100%),
+    radial-gradient(ellipse at 30% 42%, transparent 25%, rgba(0,0,0,.4) 100%);
 }
 body.has-video-skills[data-screen="skills"] #bg-vignette{
   background:
