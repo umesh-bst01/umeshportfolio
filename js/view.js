@@ -220,7 +220,7 @@ const View = {
   },
 
   /* ---------- Sound: short Persona-style menu blip, synthesized ---------- */
-  audioOn: false,
+  audioOn: true,
   audioCtx: null,
 
   playSelect() {
