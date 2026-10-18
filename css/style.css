@@ -832,6 +832,27 @@ body:not([data-screen="projects"]) #music-float.in{
   #music-float::before{animation:none;}
 }
 
+/* performance: while a screen's video is showing, the layers it covers are
+   invisible — kill their animations and paint work entirely (they come back
+   if a video file is ever removed) */
+body.has-video-home[data-screen="home"] #bg-stripes,
+body.has-video-projects[data-screen="projects"] #bg-stripes,
+body.has-video-skills[data-screen="skills"] #bg-stripes,
+body.has-video-about[data-screen="about"] #bg-stripes,
+body.has-video-contact[data-screen="contact"] #bg-stripes,
+body.has-video-home[data-screen="home"] .bg-star,
+body.has-video-projects[data-screen="projects"] .bg-star,
+body.has-video-skills[data-screen="skills"] .bg-star,
+body.has-video-about[data-screen="about"] .bg-star,
+body.has-video-contact[data-screen="contact"] .bg-star{display:none;}
+body.has-video-home[data-screen="home"] #bg-halftone,
+body.has-video-projects[data-screen="projects"] #bg-halftone,
+body.has-video-skills[data-screen="skills"] #bg-halftone,
+body.has-video-about[data-screen="about"] #bg-halftone,
+body.has-video-contact[data-screen="contact"] #bg-halftone{
+  animation-play-state:paused;   /* static dots over footage, no repaints */
+}
+
 /* ============ RESPONSIVE / MOTION ============ */
 @media (max-width:700px){
   .skill-row .name{width:130px;font-size:14px;}

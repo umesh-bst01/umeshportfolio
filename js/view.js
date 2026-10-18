@@ -181,10 +181,28 @@ const View = {
   // Reveal the active screen's background art via inline opacity — some
   // webviews stall stylesheet-driven opacity transitions on these layers,
   // so JS owns the value; the CSS rules remain as a no-JS fallback.
+  // Videos load lazily (preload="none"): a screen's clip downloads on first
+  // visit, the active one plays, and off-screen decoders pause.
   syncArtVisibility(screen) {
     document.querySelectorAll(".menu-art").forEach(a => {
-      a.style.opacity = a.dataset.screen === screen ? "1" : "0";
+      const active = a.dataset.screen === screen;
+      a.style.opacity = active ? "1" : "0";
+      if (a.tagName !== "VIDEO") return;
+      if (active) {
+        if (a.readyState === 0 && !a.__loading) {
+          a.__loading = true;
+          a.load();               // triggers loadeddata → play (wireArtVideos)
+        } else if (a.readyState >= 2 && a.paused) {
+          const p = a.play();
+          if (p && p.catch) p.catch(() => {});
+        }
+      } else if (!a.paused) {
+        a.pause();                // stop off-screen video decoders
+      }
     });
+    // while the active screen's video covers them, the stripes/stars are
+    // display:none and their animations stop — skip their parallax too
+    this.bgStripesActive = !document.body.classList.contains("has-video-" + screen);
   },
 
   setMenuSelection(index) {
@@ -431,11 +449,14 @@ const View = {
     }, { passive: true });
     const loop = () => {
       cx += (tx - cx) * 0.06; cy += (ty - cy) * 0.06;
-      stripes.style.transform = `translate(${cx * 22}px, ${cy * 14}px)`;
-      halftone.style.transform = `translate(${cx * -34}px, ${cy * -22}px)`;
-      // slight drift + over-scale so art edges never peek while moving
+      // skip the (invisible) stripe/halftone layers while a video covers them
+      if (this.bgStripesActive !== false) {
+        stripes.style.transform = `translate(${cx * 22}px, ${cy * 14}px)`;
+        halftone.style.transform = `translate(${cx * -34}px, ${cy * -22}px)`;
+      }
+      // only the visible art layer needs the drift
       arts.forEach(a => {
-        if (a.isConnected)
+        if (a.isConnected && a.style.opacity === "1")
           a.style.transform = `translate(${cx * 14}px, ${cy * 9}px) scale(1.05)`;
       });
       if (art && art.isConnected)

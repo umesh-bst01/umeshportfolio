@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=1.9">
+<link rel="stylesheet" href="css/style.css?v=2.0">
 </head>
 <body data-screen="home">
 
@@ -24,19 +24,19 @@
   <!-- Per-screen background art. Video wins over image, image over CSS stripes:
        drop assets/menus/<screen>.mp4 and/or <screen>.jpg — missing files
        remove themselves, nothing else to change. Wiring lives in view.js. -->
-  <video class="menu-art" id="art-video-home" autoplay muted loop playsinline>
+  <video class="menu-art" id="art-video-home" muted loop playsinline preload="none">
     <source src="assets/menus/home.mp4" type="video/mp4">
   </video>
-  <video class="menu-art" id="art-video-projects" autoplay muted loop playsinline>
+  <video class="menu-art" id="art-video-projects" muted loop playsinline preload="none">
     <source src="assets/menus/projects.mp4" type="video/mp4">
   </video>
-  <video class="menu-art" id="art-video-skills" autoplay muted loop playsinline>
+  <video class="menu-art" id="art-video-skills" muted loop playsinline preload="none">
     <source src="assets/menus/skills.mp4" type="video/mp4">
   </video>
-  <video class="menu-art" id="art-video-about" autoplay muted loop playsinline>
+  <video class="menu-art" id="art-video-about" muted loop playsinline preload="none">
     <source src="assets/menus/about.mp4" type="video/mp4">
   </video>
-  <video class="menu-art" id="art-video-contact" autoplay muted loop playsinline>
+  <video class="menu-art" id="art-video-contact" muted loop playsinline preload="none">
     <source src="assets/menus/contact.mp4" type="video/mp4">
   </video>
   <img class="menu-art" id="art-home" src="assets/menus/home.jpg" alt=""
@@ -66,7 +66,7 @@
 
 <!-- Taped-up polaroid on the home slash -->
 <figure id="home-photo" aria-hidden="true">
-  <img src="assets/me.jpg" alt="">
+  <img src="assets/me.jpg" alt="" loading="lazy" decoding="async">
   <figcaption>UMESH · INDIA</figcaption>
 </figure>
 
@@ -276,8 +276,8 @@
 </div>
 
 <!-- MVC: model = data, view = DOM, controller = events (version-busted) -->
-<script src="js/model.js?v=1.7" defer></script>
-<script src="js/view.js?v=1.7" defer></script>
-<script src="js/controller.js?v=1.7" defer></script>
+<script src="js/model.js?v=1.8" defer></script>
+<script src="js/view.js?v=1.9" defer></script>
+<script src="js/controller.js?v=1.8" defer></script>
 </body>
 </html>
