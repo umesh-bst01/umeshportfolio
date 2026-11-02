@@ -20,8 +20,8 @@ rebuilt from scratch with my own content, code and assets.
 │   └── style.css         All styling (theme colors in :root at the top)
 ├── js/
 │   ├── model.js          DATA — featured projects, skills, achievements, GitHub fetch
-│   ├── js/view.js        DOM — rendering, ransom lettering, wipe, cursor, synth SFX
-│   └── js/controller.js  EVENTS — keyboard/mouse input, navigation, contact form
+│   ├── view.js           DOM — rendering, ransom lettering, wipe, cursor, synth SFX
+│   └── controller.js     EVENTS — keyboard/mouse input, navigation, contact form
 └── assets/
     └── me.jpg            profile photo (home polaroid + about paper)
 ```
@@ -77,8 +77,10 @@ monetize the site.
 
 ### Static images
 
-- `assets/menus/<screen>.jpg` — per-screen background art (used when no video
-  exists for that screen)
+- `assets/menus/<screen>.jpg` — per-screen background art. Doubles as the
+  **instant poster** while that screen's video loads, so visitors never see
+  the bare CSS-stripe fallback flash first (a `home.jpg` preload in `<head>`
+  races it onto the landing screen). Used standalone when no video exists.
 - `assets/projects/<RepoName>.png` — thumbnails for the "All repositories" cards
 - `assets/hero.png` — reserved for future hero art
 

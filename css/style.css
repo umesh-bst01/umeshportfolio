@@ -760,6 +760,20 @@ body:not([data-screen="projects"]) #music-float.in{
 #music-float:not(.playing) .ic-pause{opacity:0;transform:scale(.5);}
 #music-float:not(.playing) .ic-play{opacity:1;}
 
+/* next-track button: smaller glass circle beside the play/pause button */
+#music-track{
+  width:28px;height:28px;flex-shrink:0;
+  border:1px solid rgba(255,255,255,.4);border-radius:50%;cursor:pointer;
+  background:linear-gradient(120deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
+  color:#fff;font-size:11px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  padding:0;
+  transition:transform .15s, border-color .15s, background .15s;
+}
+#music-track:hover{border-color:rgba(255,255,255,.85);background:rgba(255,255,255,.18);transform:scale(1.08);}
+#music-track:active{transform:scale(.92);}
+#music-track:focus-visible{outline:2px dashed var(--white);outline-offset:2px;}
+
 .mf-mid{display:flex;flex-direction:column;gap:5px;min-width:0;}
 .mf-title{
   font-size:9px;font-weight:700;letter-spacing:.22em;

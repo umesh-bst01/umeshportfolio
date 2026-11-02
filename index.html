@@ -8,9 +8,25 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=2.0">
+<!-- race the landing screen's poster art ahead of everything else so the
+     CSS-stripe fallback never gets a frame to paint on open/refresh -->
+<link rel="preload" as="image" href="assets/menus/home.jpg" fetchpriority="high">
+<link rel="stylesheet" href="css/style.css?v=2.1">
 </head>
 <body data-screen="home">
+<script>
+/* Paint the deep-linked screen before first render: refresh on #about etc.
+   used to flash the home screen + its art for a moment. Runs before the
+   shell markup below is parsed; Controller.bindHistory stays the authority. */
+(function () {
+  var h = (location.hash || "#home").slice(1);
+  if (["projects", "skills", "about", "contact"].indexOf(h) === -1) return;
+  document.body.setAttribute("data-screen", h);
+  var cur = document.querySelector(".screen.active");
+  var target = document.getElementById("screen-" + h);
+  if (cur && target) { cur.classList.remove("active"); target.classList.add("active"); }
+})();
+</script>
 
 <!-- Background art layers -->
 <div id="bg" aria-hidden="true">
@@ -257,8 +273,9 @@
   <button id="music-toggle" aria-label="Play ambient music">
     <span class="ic-play"></span><span class="ic-pause"></span>
   </button>
+  <button id="music-track" aria-label="Switch music track" title="Switch track — now: TOBY FOX · DETERMINATION">⏭</button>
   <div class="mf-mid">
-    <span class="mf-title">SAPPHIEROS · EMBRACE</span>
+    <span class="mf-title" id="music-title">TOBY FOX · DETERMINATION</span>
     <div class="mf-bar" id="music-progress" role="slider" aria-label="Seek music"
          aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
       <div class="mf-fill" id="music-progress-fill"></div>
@@ -271,13 +288,13 @@
     <input type="range" id="music-volume" min="0" max="100" value="55">
   </label>
   <audio id="bg-music" loop preload="metadata">
-    <source src="assets/music/embrace.m4a" type="audio/mp4">
+    <source src="assets/music/determination.mp3" type="audio/mpeg">
   </audio>
 </div>
 
 <!-- MVC: model = data, view = DOM, controller = events (version-busted) -->
 <script src="js/model.js?v=2.0" defer></script>
-<script src="js/view.js?v=2.0" defer></script>
+<script src="js/view.js?v=2.3" defer></script>
 <script src="js/controller.js?v=2.0" defer></script>
 </body>
 </html>

@@ -386,6 +386,30 @@ const View = {
     audio.addEventListener("play", () => { setPlaying(true); raf(); });
     audio.addEventListener("pause", () => setPlaying(false));
 
+    // Track switcher: ⏭ cycles the playlist; play/pause behavior unchanged.
+    // Switching keeps the playing state — if it was playing it keeps playing,
+    // if paused the new track is just selected for next time.
+    const trackBtn = document.getElementById("music-track");
+    const titleEl = document.getElementById("music-title");
+    const TRACKS = [
+      { src: "assets/music/determination.mp3", name: "TOBY FOX · DETERMINATION" },
+      { src: "assets/music/embrace.m4a",       name: "SAPPHEIROS · EMBRACE" },
+    ];
+    let trackIndex = 0;
+    const paintTrack = () => {
+      if (titleEl) titleEl.textContent = TRACKS[trackIndex].name;
+      if (trackBtn) trackBtn.title = "Switch track — now: " + TRACKS[trackIndex].name;
+    };
+    paintTrack();
+    if (trackBtn) trackBtn.addEventListener("click", () => {
+      const wasPlaying = !audio.paused;
+      trackIndex = (trackIndex + 1) % TRACKS.length;
+      audio.src = TRACKS[trackIndex].src;
+      audio.load();
+      if (wasPlaying) play(); else sync();
+      paintTrack();
+    });
+
     if (vol) {
       audio.volume = parseInt(vol.value, 10) / 100;
       vol.addEventListener("input", () => {
@@ -429,8 +453,9 @@ const View = {
   /* ---------- Ambient: clock, parallax, custom cursor ---------- */
   startClock() {
     const tick = () => {
+      // the HUD says IND — show India time regardless of the visitor's timezone
       this.els.clock.textContent =
-        new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) + " · IND";
+        new Date().toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata", hour: "2-digit", minute: "2-digit", hour12: false }) + " · IND";
     };
     tick();
     setInterval(tick, 1000);
