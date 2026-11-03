@@ -644,28 +644,50 @@ body.has-video-home #big-name .ch:not(.box):not(.boxw){
   text-shadow:2px 2px 0 rgba(0,0,0,.65);
 }
 
-/* a screen's video carries its own composition — on that screen only, drop
-   the CSS slash and code-drawn bursts/speed-lines/twinkles so they don't
-   sit on top of the footage (screens without video keep them) */
+/* The slash and code-drawn decor (bursts / speed-lines / twinkles) belong to
+   the bare-stripe fallback only. While a screen's poster art is up — and after
+   its video takes over — they must not paint on top of it: they used to sit
+   over the poster for the whole video-download window, then vanish the
+   moment the video landed (a one-frame pop on every refresh). */
+body.has-art-home[data-screen="home"] #slash,
 body.has-video-home[data-screen="home"] #slash,
+body.has-art-projects[data-screen="projects"] #slash,
 body.has-video-projects[data-screen="projects"] #slash,
+body.has-art-skills[data-screen="skills"] #slash,
 body.has-video-skills[data-screen="skills"] #slash,
+body.has-art-about[data-screen="about"] #slash,
 body.has-video-about[data-screen="about"] #slash,
-body.has-video-contact[data-screen="contact"] #slash{display:none;}
+body.has-art-contact[data-screen="contact"] #slash,
+body.has-video-contact[data-screen="contact"] #slash,
+body.has-art-home[data-screen="home"] #speedlines,
 body.has-video-home[data-screen="home"] #speedlines,
-body.has-video-home[data-screen="home"] .burst,
-body.has-video-home[data-screen="home"] #twinkles,
+body.has-art-projects[data-screen="projects"] #speedlines,
 body.has-video-projects[data-screen="projects"] #speedlines,
-body.has-video-projects[data-screen="projects"] .burst,
-body.has-video-projects[data-screen="projects"] #twinkles,
+body.has-art-skills[data-screen="skills"] #speedlines,
 body.has-video-skills[data-screen="skills"] #speedlines,
-body.has-video-skills[data-screen="skills"] .burst,
-body.has-video-skills[data-screen="skills"] #twinkles,
+body.has-art-about[data-screen="about"] #speedlines,
 body.has-video-about[data-screen="about"] #speedlines,
-body.has-video-about[data-screen="about"] .burst,
-body.has-video-about[data-screen="about"] #twinkles,
+body.has-art-contact[data-screen="contact"] #speedlines,
 body.has-video-contact[data-screen="contact"] #speedlines,
+body.has-art-home[data-screen="home"] .burst,
+body.has-video-home[data-screen="home"] .burst,
+body.has-art-projects[data-screen="projects"] .burst,
+body.has-video-projects[data-screen="projects"] .burst,
+body.has-art-skills[data-screen="skills"] .burst,
+body.has-video-skills[data-screen="skills"] .burst,
+body.has-art-about[data-screen="about"] .burst,
+body.has-video-about[data-screen="about"] .burst,
+body.has-art-contact[data-screen="contact"] .burst,
 body.has-video-contact[data-screen="contact"] .burst,
+body.has-art-home[data-screen="home"] #twinkles,
+body.has-video-home[data-screen="home"] #twinkles,
+body.has-art-projects[data-screen="projects"] #twinkles,
+body.has-video-projects[data-screen="projects"] #twinkles,
+body.has-art-skills[data-screen="skills"] #twinkles,
+body.has-video-skills[data-screen="skills"] #twinkles,
+body.has-art-about[data-screen="about"] #twinkles,
+body.has-video-about[data-screen="about"] #twinkles,
+body.has-art-contact[data-screen="contact"] #twinkles,
 body.has-video-contact[data-screen="contact"] #twinkles{display:none;}
 
 /* ============ FLOATING LIQUID-GLASS MUSIC PLAYER ============ */

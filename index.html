@@ -11,7 +11,7 @@
 <!-- race the landing screen's poster art ahead of everything else so the
      CSS-stripe fallback never gets a frame to paint on open/refresh -->
 <link rel="preload" as="image" href="assets/menus/home.jpg" fetchpriority="high">
-<link rel="stylesheet" href="css/style.css?v=2.1">
+<link rel="stylesheet" href="css/style.css?v=2.2">
 </head>
 <body data-screen="home">
 <script>
@@ -22,6 +22,12 @@
   var h = (location.hash || "#home").slice(1);
   if (["projects", "skills", "about", "contact"].indexOf(h) === -1) return;
   document.body.setAttribute("data-screen", h);
+  // race this screen's poster art ahead of everything else, same as the
+  // static home preload below — so refresh-on-a-hash never paints stripes first
+  var l = document.createElement("link");
+  l.rel = "preload"; l.as = "image"; l.fetchPriority = "high";
+  l.href = "assets/menus/" + h + ".jpg";
+  document.head.appendChild(l);
   var cur = document.querySelector(".screen.active");
   var target = document.getElementById("screen-" + h);
   if (cur && target) { cur.classList.remove("active"); target.classList.add("active"); }
